@@ -1,0 +1,31 @@
+version: "3"
+services:
+  confluence:
+    image: 'teamatldocker/confluence'
+    hostname: confluence
+    volumes:
+      - "${APP_CODE_PATH_HOST}:/var/atlassian/confluence"
+    ports: 
+      - "${CONFLUENCE_PORT}:8090"
+      - "${CONFLUENCES_PORT}:8091"
+    environment:
+      - "CATALINA_OPTS= -Xms256m -Xmx1g"
+      - "CONFLUENCE_PROXY_NAME="
+      - "CONFLUENCE_PROXY_PORT="
+      - "CONFLUENCE_PROXY_SCHEME="
+      - "CONFLUENCE_DELAYED_START="
+  postgres:
+    image: 'postgres:9.5-alpine'
+    hostname: postgres
+    volumes:
+      - "${DATA_PATH_HOST}/postgres:/var/lib/postgresql/data"
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    environment:
+      - "POSTGRES_DB=${POSTGRES_DB}"
+      - "POSTGRES_USER=${POSTGRES_USER}"
+      - "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}"
+      - "POSTGRES_ENCODING=UTF8"
+      - "POSTGRES_COLLATE=C"
+      - "POSTGRES_COLLATE_TYPE=C"
+volumes: {}
